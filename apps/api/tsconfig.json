@@ -1,0 +1,12 @@
+{
+  "extends": "@measuremate/typescript-config/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": ".",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "types": ["node", "jest"],
+    "noUncheckedIndexedAccess": false
+  },
+  "include": ["src", "test", "prisma/seed.ts"]
+}
