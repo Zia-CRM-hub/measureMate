@@ -1,0 +1,5 @@
+{
+  "extends": "@measuremate/typescript-config/base.json",
+  "compilerOptions": { "outDir": "dist", "rootDir": "src", "types": ["node", "jest"] },
+  "include": ["src"]
+}
