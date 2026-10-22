@@ -26,6 +26,11 @@ export class EntitlementsService {
           else if (f.intValue !== null) value.limits[f.key] = f.intValue;
         }
       }
+      // Platform staff can grant per-tenant exceptions on top of the plan.
+      for (const o of await t.tenantEntitlementOverride.findMany({ where: { tenantId } })) {
+        if (o.key.startsWith('feature.')) { if (o.enabled !== null) value.features[o.key.slice(8)] = o.enabled; }
+        else if (o.intValue !== null) value.limits[o.key] = o.intValue;
+      }
       return value;
     };
     const value = tx ? await load(tx) : await this.db.run(load, { tenantId });

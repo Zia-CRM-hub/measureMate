@@ -12,8 +12,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const unauth = error instanceof ApiError && error.status === 401;
 
   React.useEffect(() => { if (unauth) router.replace('/login'); }, [unauth, router]);
+  const toPlatform = !!me && me.user.isPlatformAdmin && !me.activeTenant;
+  React.useEffect(() => { if (toPlatform) router.replace('/platform'); }, [toPlatform, router]);
 
-  if (isLoading || unauth) {
+  if (isLoading || unauth || toPlatform) {
     return <div className="mx-auto max-w-3xl space-y-4 p-6"><Skeleton className="h-10 w-1/3" /><Skeleton className="h-40" /><Skeleton className="h-40" /></div>;
   }
   if (error || !me) return <div className="mx-auto max-w-lg p-6"><Alert>We could not load your account. Please refresh the page.</Alert></div>;

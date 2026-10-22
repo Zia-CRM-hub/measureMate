@@ -14,6 +14,7 @@ import { loadConfig } from '../../common/config';
 import { AuthService } from '../auth/auth.service';
 import { SessionService } from '../auth/session.service';
 import { PLANS } from '../../common/plans';
+import { buildTenantExport } from './export';
 
 const settingsSchema = z.object({
   legalName: z.string().max(160).optional(), addressLine1: z.string().max(200).optional(), city: z.string().max(100).optional(),
@@ -230,16 +231,7 @@ export class TenantController {
   async exportData() {
     const tenantId = currentTenantId();
     return this.db.run(async (tx) => {
-      const data = {
-        exportedAt: new Date().toISOString(), tenantId,
-        customers: await tx.customer.findMany({ include: { members: true, contacts: true, consents: true } }),
-        measurementProfiles: await tx.measurementProfile.findMany({ include: { revisions: { include: { values: true, styles: true } } } }),
-        orders: await tx.order.findMany({ include: { items: true, history: true } }),
-        payments: await tx.payment.findMany({ include: { allocations: true, refunds: true } }),
-        invoices: await tx.invoice.findMany({ include: { items: true, creditNotes: true } }),
-        inventoryItems: await tx.inventoryItem.findMany(), appointments: await tx.appointment.findMany(),
-        branches: await tx.branch.findMany(),
-      };
+      const data = await buildTenantExport(tx, tenantId);
       await this.audit.recordTx(tx, { action: 'tenant.exported', entityType: 'tenant', entityId: tenantId });
       return data;
     }, { timeout: 60000 });

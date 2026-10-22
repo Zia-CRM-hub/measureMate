@@ -79,6 +79,7 @@ export class AuthGuard implements CanActivate {
     const platformOnly = get<boolean>(PLATFORM_ONLY);
     if (platformOnly) {
       if (!user.isPlatformAdmin) throw forbidden('Platform administrators only');
+      if (impersonatorId) throw forbidden('End the support session before using platform tools');
       base.permissions = ROLE_PERMISSIONS.PLATFORM_ADMIN;
       Object.assign(contextStore.getStore()!, base);
       return true;

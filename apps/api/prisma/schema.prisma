@@ -231,6 +231,20 @@ model Employee {
   @@map("employees")
 }
 
+/// Per-tenant exceptions to the plan (set by platform staff): a numeric limit and/or a feature switch.
+model TenantEntitlementOverride {
+  tenantId String  @db.Uuid
+  key      String  // e.g. max_branches, feature.inventory
+  intValue Int?
+  enabled  Boolean?
+  note     String?
+  setBy    String? @db.Uuid
+  updatedAt DateTime @updatedAt
+
+  @@id([tenantId, key])
+  @@map("tenant_entitlement_overrides")
+}
+
 model Sequence {
   tenantId String @db.Uuid
   key      String

@@ -93,8 +93,9 @@ export function AppShell({ me, children }: { me: Me; children: React.ReactNode }
 
       <div className="flex min-w-0 flex-1 flex-col">
         {me.impersonation && (
-          <div className="bg-warning px-4 py-2 text-center text-sm font-semibold text-black">
-            Support session (read-only) · Reason: {me.impersonation.reason} · Expires {new Date(me.impersonation.expiresAt).toLocaleTimeString()}
+          <div className="flex flex-wrap items-center justify-center gap-3 bg-warning px-4 py-2 text-center text-sm font-semibold text-black">
+            <span>Support session (read-only) · Reason: {me.impersonation.reason} · Expires {new Date(me.impersonation.expiresAt).toLocaleTimeString()}</span>
+            <button className="min-h-9 rounded-md bg-black px-3 text-white" onClick={async () => { await post('/support/end-session').catch(() => undefined); await qc.invalidateQueries(); router.push('/platform'); }}>End support session</button>
           </div>
         )}
         <header className="sticky top-0 z-30 flex h-16 items-center gap-2 border-b border-border bg-background/95 px-3 backdrop-blur md:px-6">
