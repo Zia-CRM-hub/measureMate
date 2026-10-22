@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AppError } from './errors';
 import { PrismaService, Tx } from './prisma.service';
 

@@ -1,4 +1,4 @@
-﻿import { applyDecorators, SetMetadata } from '@nestjs/common';
+import { applyDecorators, SetMetadata } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import type { ZodTypeAny } from 'zod';
 import { zodToJsonSchema } from 'zod-to-json-schema';
