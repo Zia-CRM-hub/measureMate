@@ -54,7 +54,7 @@ export default function DashboardPage() {
         </ul>
       </Card>
 
-      <p className="mt-6 text-sm text-muted-foreground">Customers, measurements, orders and payments are being added module by module. This workspace is already isolated per business, with role-based access and a full audit trail.</p>
+      <p className="mt-6 text-sm text-muted-foreground">Customers and measurements are ready; orders, payments and the rest are being added module by module. This workspace is already isolated per business, with role-based access and a full audit trail.</p>
     </>
   );
 }

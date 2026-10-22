@@ -2,7 +2,7 @@
 
 For tailors, boutique owners and shop managers. No technical knowledge needed.
 
-> **What this manual covers.** MeasureMate is being released in stages. This manual describes what you can use today: setting up your business, branches, team and plan. Sections for customers, measurements, orders and payments will be added as those features are released. The last chapter lists what is coming.
+> **What this manual covers.** MeasureMate is being released in stages. This manual describes what you can use today: setting up your business, customers and families, measurements, branches, team and plan. Sections for customers, measurements, orders and payments will be added as those features are released. The last chapter lists what is coming.
 
 ---
 
@@ -41,6 +41,8 @@ Your business starts with one branch called **Main Branch**, ready-made measurem
 | Where | What it does |
 |---|---|
 | **Dashboard** | Your home page. Shows your branches, team size, plan, and a short getting-started checklist. |
+| **Customers** | Find, add and manage customers and their families. |
+| **Measurements** | Templates for each garment type. |
 | **Settings** | Business details, branches, team, plan, activity history and your data. |
 | **Business name (top left)** | Switch between businesses if you run more than one. |
 | **Quick create (+)** | Shortcuts such as *Add a branch* or *Invite a team member*. |
@@ -51,7 +53,73 @@ On a computer, press **Ctrl + K** (or **Cmd + K** on Mac) from anywhere to open 
 
 ---
 
-## 3. Set up your business
+## 3. Customers and families
+
+Tap **Customers** (bottom bar on a phone, left menu on a computer).
+
+### Find a customer fast
+Type in the search box. It understands:
+- part of a **name** (`ash` finds Asha), even with a small spelling mistake
+- a **mobile number** in any format (`98765`, `+91 98765 43210`, `098765 43210` all match)
+- an **email** or a **customer number** such as `C-00012`
+- the name of a **family member** (searching `Aarav` finds his parent and shows "Matched family")
+- **city**, **postal code** and **tags** (use the filter boxes)
+
+With nothing typed you see your **recent** customers and the full list. Use **Export** to download a spreadsheet (owners and managers only).
+
+### Add a customer
+1. Tap **New customer**. Only the name is required; a mobile number makes them easy to find later.
+2. Tap **Save customer**.
+
+**Duplicate check:** if the mobile number or email already belongs to someone, MeasureMate shows who, before saving. Choose **Open this customer** to use the existing record, or **create a new customer anyway** if it really is a different person (for example two people sharing a phone).
+
+Customer numbers (C-00001, C-00002 …) are created automatically.
+
+### Family members
+Each customer's page has a **People & measurements** tab. Tap **Add family member** to add a spouse, child, parent or other relative. **Every person has their own measurements**, and the customer can still order for them.
+
+### Edit, archive and merge
+- **Edit** changes details. If a colleague saved a change first, you are asked to reopen the customer so nobody's edits are lost.
+- **Archive** hides a customer who no longer visits; **Restore** brings them back. Nothing is deleted.
+- **Merge** fixes accidental duplicates: pick the duplicate and everything moves to this customer; the duplicate is archived. Payment and invoice records stay exactly as issued.
+
+### Offers and greetings
+On the **Details** tab, tick the channels (email, SMS, WhatsApp) the customer has agreed to. Offers and birthday messages are only sent where they agreed. Order updates are always allowed.
+
+### Timeline
+The **Timeline** tab shows everything about the customer in date order: measurement changes, orders, payments, invoices and appointments.
+
+---
+
+## 4. Measurements
+
+### Templates
+Tap **Measurements** to see ready-made templates for shirts, trousers, suit jackets, kurtas, sherwanis, blouses, salwars, churidars, gowns, dresses, skirts, school uniforms, alterations and custom garments.
+- **Copy** a built-in template, then **Edit** your copy: add or remove measurements, reorder them, mark some as *Required*, add help text, and set "warn if below/above" limits (in cm).
+- Built-in templates themselves cannot be edited, so they are always there to copy again.
+
+### Record a person's measurements
+1. Open the customer, then the **People & measurements** tab.
+2. Next to the person, tap **Measurement profile** and choose the garment type.
+   - If this person already has measurements, you can **copy previous measurements** to save typing.
+3. Type each value. The screen shows exactly how it is converted, for example `40 in = 1016.000 mm`. Switch **Inches / cm** at the top any time.
+4. Optionally add **style preferences** (for example Collar: Spread), posture and fit notes.
+5. Tap **Save measurements**. Tick **Save as draft** to finish later.
+
+### Checks before saving
+If a value looks unusual (for example a 400-inch chest) or a required measurement is missing, MeasureMate asks you to double-check. If the numbers are correct, type a short reason and **Save anyway**. These are simple range and completeness rules, not artificial intelligence.
+
+### Nothing is ever overwritten
+Every save creates a new **revision**. On the **History** tab you can:
+- see who changed what and why,
+- tick two revisions to **compare** them side by side (changed values are highlighted, with the difference),
+- **Restore** an older revision. This adds a new revision with the old values, so the full history stays.
+
+Use **Print sheet** for a one-page PDF of the measurements to keep at the cutting table.
+
+---
+
+## 5. Set up your business
 
 Go to **Settings, then Business**.
 
@@ -77,7 +145,7 @@ Tap **Save changes** (it turns on once you edit something). A green message conf
 
 ---
 
-## 4. Branches
+## 6. Branches
 
 A branch is one shop or workshop location. If you have one shop, the **Main Branch** is all you need.
 
@@ -97,7 +165,7 @@ Go to **Settings, then Branches**.
 
 ---
 
-## 5. Your team
+## 7. Your team
 
 Go to **Settings, then Team**.
 
@@ -133,7 +201,7 @@ What happens next:
 
 ---
 
-## 6. Plans and billing
+## 8. Plans and billing
 
 Go to **Settings, then Plan**.
 
@@ -148,7 +216,7 @@ Prices shown are examples only, and payment is simulated at this stage. Choosing
 
 ---
 
-## 7. Activity history (audit log)
+## 9. Activity history (audit log)
 
 Go to **Settings, then Audit log**.
 
@@ -160,7 +228,7 @@ This is a permanent record of important actions: sign-ins, team invitations, set
 
 ---
 
-## 8. Your data and privacy
+## 10. Your data and privacy
 
 Go to **Settings, then Data & privacy**.
 
@@ -171,7 +239,7 @@ Your business is completely separate from every other business on MeasureMate. O
 
 ---
 
-## 9. Keeping your account safe
+## 11. Keeping your account safe
 
 - Use a password only you know, and never share one login between staff. Invite each person separately so the history shows who did what.
 - Sign out on shared or public computers.
@@ -180,7 +248,7 @@ Your business is completely separate from every other business on MeasureMate. O
 
 ---
 
-## 10. Troubleshooting
+## 12. Troubleshooting
 
 | Problem | What to do |
 |---|---|
@@ -194,12 +262,10 @@ Your business is completely separate from every other business on MeasureMate. O
 
 ---
 
-## 11. What is coming
+## 13. What is coming
 
 These are planned and not yet available. This list will move into the main chapters as each part is released.
 
-- **Customers and families:** find a returning customer by name, mobile number or family member; keep each person's measurements separate.
-- **Measurements:** ready-made templates for shirts, trousers, kurtas, blouses and more, with full history, comparison of old and new, and printable sheets.
 - **Orders and production:** orders with several garments, a progress board from cutting to delivery, trials and alterations.
 - **Payments and invoices:** advances, part-payments, receipts, refunds and PDF invoices.
 - **Appointments and reminders** by email, SMS and WhatsApp (with customer consent).

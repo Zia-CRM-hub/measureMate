@@ -1,4 +1,4 @@
-import { LayoutDashboard, Settings, type LucideIcon } from 'lucide-react';
+import { LayoutDashboard, Ruler, Settings, Users, type LucideIcon } from 'lucide-react';
 
 export interface NavItem { href: string; label: string; icon: LucideIcon; perm?: string }
 export interface QuickAction { href: string; label: string; perm?: string }
@@ -6,10 +6,13 @@ export interface QuickAction { href: string; label: string; perm?: string }
 /** Only modules that are implemented end to end appear here; new modules add their entry when they land. */
 export const NAV: NavItem[] = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/customers', label: 'Customers', icon: Users, perm: 'customer.view' },
+  { href: '/measurements', label: 'Measurements', icon: Ruler, perm: 'measurement.view' },
   { href: '/settings/business', label: 'Settings', icon: Settings, perm: 'tenant.settings.manage' },
 ];
 
 export const QUICK_ACTIONS: QuickAction[] = [
+  { href: '/customers/new', label: 'New customer', perm: 'customer.create' },
   { href: '/settings/branches?new=1', label: 'Add a branch', perm: 'branch.manage' },
   { href: '/settings/team?new=1', label: 'Invite a team member', perm: 'employee.manage' },
 ];

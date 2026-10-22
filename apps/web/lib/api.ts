@@ -1,5 +1,5 @@
 export class ApiError extends Error {
-  constructor(public status: number, public code: string, message: string, public details?: { path: string; message: string }[]) {
+  constructor(public status: number, public code: string, message: string, public details?: any) {
     super(message);
   }
 }
@@ -40,7 +40,9 @@ export const del = <T,>(path: string) => api<T>(path, { method: 'DELETE' });
 
 export function errorText(e: unknown): string {
   if (e instanceof ApiError) {
-    if (e.details?.length) return `${e.message}: ${e.details.map((d) => (d.path ? `${d.path} – ${d.message}` : d.message)).join('; ')}`;
+    if (Array.isArray(e.details) && e.details.length) {
+      return `${e.message}: ${e.details.map((d: { path: string; message: string }) => (d.path ? `${d.path} – ${d.message}` : d.message)).join('; ')}`;
+    }
     return e.message;
   }
   return e instanceof Error ? e.message : 'Something went wrong';

@@ -30,7 +30,7 @@ export default async function setup() {
   process.env.WORKER_ENABLED = 'false';
   process.env.STORAGE_DIR = join(dir, 'storage');
   const prismaCli = require.resolve('prisma/build/index.js');
-  execSync(`node "${prismaCli}" migrate deploy`, { stdio: 'pipe', env: process.env, cwd: join(__dirname, '..') });
+  execSync(`"${process.execPath}" "${prismaCli}" migrate deploy`, { stdio: 'pipe', env: process.env, cwd: join(__dirname, '..') });
   (globalThis as unknown as { __pg: { stop(): Promise<void> } }).__pg = server;
 }
 

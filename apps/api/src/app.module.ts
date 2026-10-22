@@ -10,6 +10,10 @@ import { HealthController } from './health.controller';
 import { AuthController } from './modules/auth/auth.controller';
 import { AuthService } from './modules/auth/auth.service';
 import { TenantController } from './modules/tenant/tenant.controller';
+import { CustomersController } from './modules/customers/customers.controller';
+import { CustomersService } from './modules/customers/customers.service';
+import { MeasurementsController } from './modules/measurements/measurements.controller';
+import { MeasurementsService } from './modules/measurements/measurements.service';
 
 @Module({
   imports: [
@@ -19,9 +23,9 @@ import { TenantController } from './modules/tenant/tenant.controller';
       skipIf: () => process.env.NODE_ENV === 'test' && process.env.THROTTLE_TEST !== 'on',
     }),
   ],
-  controllers: [HealthController, AuthController, TenantController],
+  controllers: [HealthController, AuthController, TenantController, CustomersController, MeasurementsController],
   providers: [
-    AuthService,
+    AuthService, CustomersService, MeasurementsService,
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_GUARD, useClass: AuthGuard },
     { provide: APP_INTERCEPTOR, useClass: ZodInterceptor },
