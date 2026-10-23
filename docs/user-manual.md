@@ -1,38 +1,32 @@
 # MeasureMate User Manual
 
-For tailors, boutique owners and shop managers. No technical knowledge needed.
+**For:** tailors, cutters, stitchers, receptionists, cashiers and anyone who uses MeasureMate every day in a shop or workshop.
+**Not for:** owners and managers who set up the business (see the *Administrator Manual*) or the people who run the MeasureMate service (see the *Super Admin Manual*).
 
-> **What this manual covers.** MeasureMate is being released in stages. This manual describes what you can use today: setting up your business, customers and families, measurements, branches, team and plan. Sections for customers, measurements, orders and payments will be added as those features are released. The last chapter lists what is coming.
+No technical knowledge is needed. If something on your screen is missing, your role probably does not include it; ask your manager (section 8).
+
+> **What is available today.** Customers and families, measurements, and your account. Orders, payments, invoices, appointments and stock are being added; they are listed in section 10 so you know what is coming. This manual only describes screens that exist.
 
 ---
 
 ## 1. Getting started
 
-### Create your business
-1. Open MeasureMate in your browser (phone, tablet or computer).
-2. Tap **Register your business**.
-3. Fill in:
-   - **Business name**: how it will appear on bills and receipts.
-   - **Your name** and **Email**: you sign in with this email.
-   - **Password**: at least 10 characters. A short sentence works well, for example `blue-needle-brings-luck`.
-   - **Country**: this sets your currency and time zone.
-   - **Measurements in**: inches or centimetres. You can change this later.
-4. Tap **Create my business**.
+### Signing in
+1. Open MeasureMate in your browser on your phone, tablet or computer.
+2. Enter your **email** and **password** and tap **Sign in**.
+3. New staff: your manager sends you an **invitation link**. Open it, enter your name, choose a password (at least 10 characters) and you are in. The link works once and lasts 7 days; if it has expired, ask for a new one.
 
-You start with a free 14-day trial of the Professional plan. No card is needed.
+If you type the wrong password 5 times the account locks for 15 minutes. Wait, then try again.
 
-Your business starts with one branch called **Main Branch**, ready-made measurement templates (shirt, trousers, kurta, blouse and more), and a starter price list.
+### Signing out
+Tap your name (top right), then **Sign out**. Always sign out on a shared computer.
 
-### Sign in and out
-- **Sign in:** enter your email and password.
-- **Sign out:** tap your name (top right), then **Sign out**.
-- If you enter the wrong password 5 times, the account locks for 15 minutes. This protects your data. Wait and try again.
+### Put it on your phone's home screen
+- **iPhone (Safari):** Share, then **Add to Home Screen**.
+- **Android (Chrome):** menu (three dots), then **Install app** or **Add to Home screen**.
 
-### Using it on your phone
-- MeasureMate is designed for phones first. On a phone, the main menu is at the bottom of the screen.
-- **Add it to your home screen** so it opens like an app:
-  - *iPhone (Safari):* tap Share, then **Add to Home Screen**.
-  - *Android (Chrome):* tap the menu (three dots), then **Install app** or **Add to Home screen**.
+### Working in more than one business
+If you belong to several businesses, tap the business name (top left) and choose one. Your role can be different in each.
 
 ---
 
@@ -40,239 +34,157 @@ Your business starts with one branch called **Main Branch**, ready-made measurem
 
 | Where | What it does |
 |---|---|
-| **Dashboard** | Your home page. Shows your branches, team size, plan, and a short getting-started checklist. |
-| **Customers** | Find, add and manage customers and their families. |
-| **Measurements** | Templates for each garment type. |
-| **Settings** | Business details, branches, team, plan, activity history and your data. |
-| **Business name (top left)** | Switch between businesses if you run more than one. |
-| **Quick create (+)** | Shortcuts such as *Add a branch* or *Invite a team member*. |
-| **Search box / Ctrl + K** | Type what you want to do and jump straight there. |
-| **Moon / sun icon** | Switch between light and dark screen. Dark is easier on the eyes in a dim shop. |
+| **Dashboard** | Your home page. |
+| **Customers** | Find, add and update customers and their families. |
+| **Measurements** | The list of measurement templates (what is measured for each garment). |
+| **Settings** | For managers and owners. (Accountants and auditors see only the Audit log.) |
+| **Business name (top left)** | Switch business. |
+| **+ Quick create** | Shortcuts, for example *New customer*. |
+| **Search box, or Ctrl + K** | Type what you want to do and jump straight there. |
+| **Moon / sun icon** | Dark or light screen. Dark is easier in a dim workshop. |
 
-On a computer, press **Ctrl + K** (or **Cmd + K** on Mac) from anywhere to open the search.
+On a phone the main menu is the bar at the bottom of the screen. On a computer it is on the left.
 
 ---
 
 ## 3. Customers and families
 
-Tap **Customers** (bottom bar on a phone, left menu on a computer).
-
 ### Find a customer fast
-Type in the search box. It understands:
-- part of a **name** (`ash` finds Asha), even with a small spelling mistake
-- a **mobile number** in any format (`98765`, `+91 98765 43210`, `098765 43210` all match)
-- an **email** or a **customer number** such as `C-00012`
-- the name of a **family member** (searching `Aarav` finds his parent and shows "Matched family")
-- **city**, **postal code** and **tags** (use the filter boxes)
+Tap **Customers** and type in the search box. It understands:
+- part of a **name**: `ash` finds Asha, and small spelling mistakes are forgiven
+- a **mobile number** in any style: `98765`, `+91 98765 43210` and `098765 43210` all match
+- an **email address** or a **customer number** such as `C-00012`
+- a **family member's name**: searching `Aarav` finds his parent and shows "Matched family"
+- **city**, **postal code** and **tags** using the filter boxes
 
-With nothing typed you see your **recent** customers and the full list. Use **Export** to download a spreadsheet (owners and managers only).
+With nothing typed you see **Recent** customers and the full list. Sort by name, last visit or newest.
 
 ### Add a customer
-1. Tap **New customer**. Only the name is required; a mobile number makes them easy to find later.
-2. Tap **Save customer**.
+1. Tap **New customer** (or **+ Quick create**, then *New customer*).
+2. Enter the name. A mobile number is strongly recommended because it makes the customer easy to find later.
+3. Tap **Save customer**.
 
-**Duplicate check:** if the mobile number or email already belongs to someone, MeasureMate shows who, before saving. Choose **Open this customer** to use the existing record, or **create a new customer anyway** if it really is a different person (for example two people sharing a phone).
+**Duplicate check.** If the mobile number or email already belongs to someone, MeasureMate shows who *before* saving. Tap **Open this customer** to use the existing record. Only choose **create a new customer anyway** when it really is a different person (for example two people who share a phone).
 
-Customer numbers (C-00001, C-00002 …) are created automatically.
+Customer numbers (C-00001, C-00002 ...) are made automatically.
 
 ### Family members
-Each customer's page has a **People & measurements** tab. Tap **Add family member** to add a spouse, child, parent or other relative. **Every person has their own measurements**, and the customer can still order for them.
+Open the customer, stay on **People & measurements**, and tap **Add family member**. Choose spouse, child, parent, sibling, relative, friend or other. **Every person has their own measurements**, kept separate from everyone else's.
 
-### Edit, archive and merge
-- **Edit** changes details. If a colleague saved a change first, you are asked to reopen the customer so nobody's edits are lost.
-- **Archive** hides a customer who no longer visits; **Restore** brings them back. Nothing is deleted.
-- **Merge** fixes accidental duplicates: pick the duplicate and everything moves to this customer; the duplicate is archived. Payment and invoice records stay exactly as issued.
+The customer themselves is always listed first.
+
+### Change a customer's details
+Tap **Edit**, change what you need and **Save**. If a colleague saved a change a moment earlier, MeasureMate asks you to close and reopen the customer so nobody's work is overwritten.
 
 ### Offers and greetings
-On the **Details** tab, tick the channels (email, SMS, WhatsApp) the customer has agreed to. Offers and birthday messages are only sent where they agreed. Order updates are always allowed.
+On the **Details** tab, tick the channels (email, SMS, WhatsApp) only if the customer **agreed** to receive offers. Order updates are always allowed; offers and birthday greetings are not.
 
-### Timeline
-The **Timeline** tab shows everything about the customer in date order: measurement changes, orders, payments, invoices and appointments.
+### The customer timeline
+The **Timeline** tab lists everything about the customer in date order: measurement changes now, and orders, payments and appointments as those features arrive.
 
 ---
 
 ## 4. Measurements
 
 ### Templates
-Tap **Measurements** to see ready-made templates for shirts, trousers, suit jackets, kurtas, sherwanis, blouses, salwars, churidars, gowns, dresses, skirts, school uniforms, alterations and custom garments.
-- **Copy** a built-in template, then **Edit** your copy: add or remove measurements, reorder them, mark some as *Required*, add help text, and set "warn if below/above" limits (in cm).
-- Built-in templates themselves cannot be edited, so they are always there to copy again.
+Tap **Measurements**. Ready-made templates cover shirts, trousers, suit jackets, kurtas, sherwanis, blouses, salwars, churidars, gowns, dresses, skirts, school uniforms, alterations and custom garments. Master Tailors and managers can **Copy** a template and change their copy (see the Administrator Manual); you simply choose the one you need.
 
-### Record a person's measurements
-1. Open the customer, then the **People & measurements** tab.
-2. Next to the person, tap **Measurement profile** and choose the garment type.
+### Record someone's measurements
+1. Open the customer, then **People & measurements**.
+2. Next to the right person, tap **Measurement profile** and choose the garment type.
    - If this person already has measurements, you can **copy previous measurements** to save typing.
-3. Type each value. The screen shows exactly how it is converted, for example `40 in = 1016.000 mm`. Switch **Inches / cm** at the top any time.
-4. Optionally add **style preferences** (for example Collar: Spread), posture and fit notes.
-5. Tap **Save measurements**. Tick **Save as draft** to finish later.
+3. Type each value. A small line under the box shows exactly how it is converted, for example `40 in = 1016.000 mm`.
+4. Use **Inches / cm** at the top to work in the unit you prefer. Values are stored exactly either way.
+5. Add **style preferences** if useful (for example Collar: Spread) and posture or fit notes.
+6. Tap **Save measurements**. Tick **Save as draft** to finish later.
 
-### Checks before saving
-If a value looks unusual (for example a 400-inch chest) or a required measurement is missing, MeasureMate asks you to double-check. If the numbers are correct, type a short reason and **Save anyway**. These are simple range and completeness rules, not artificial intelligence.
+An asterisk (*) marks a measurement the template needs.
 
-### Nothing is ever overwritten
-Every save creates a new **revision**. On the **History** tab you can:
-- see who changed what and why,
-- tick two revisions to **compare** them side by side (changed values are highlighted, with the difference),
-- **Restore** an older revision. This adds a new revision with the old values, so the full history stays.
+### The double-check
+If a number looks unusual (for example a 400-inch chest) or a required measurement is missing, MeasureMate shows what to check. If you are sure the numbers are right, write a short reason and tap **Save anyway**. The reason is kept with the record.
 
-Use **Print sheet** for a one-page PDF of the measurements to keep at the cutting table.
+> These are simple range and completeness rules, not artificial intelligence. MeasureMate does not guess or "correct" measurements for you.
 
----
+### Changing measurements later
+Open **Update measurements**, type only the values that changed (empty boxes keep their old value), add *why* if helpful, and save. This creates a **new revision**; the old one is never overwritten.
 
-## 5. Set up your business
+- **Receptionists, cutters, stitchers and quality checkers** can record a person's *first* measurements. Changing existing measurements needs a **Master Tailor**, manager or owner. This protects customers' records.
+- Only **managers and owners** can **Restore** an older revision.
 
-Go to **Settings, then Business**.
+### History and comparing
+On the **History** tab you can see who changed what and why. Tick **two revisions** to see them side by side with the change highlighted, for example waist 34.00 to 35.00, +1.00.
 
-### Business profile
-- **Legal name**, **address** and **city** appear on invoices and receipts.
-- **Brand colour**: used on your documents and customer portal.
-
-### Currency, tax and units
-- **Currency**, **country** and **time zone**: set when you registered. Change them only if they are wrong.
-- **Measurement unit**: inches or centimetres. Measurements are stored precisely either way, so you can switch later without losing accuracy.
-- **Tax name** and **default tax rate**: use whatever your country uses (GST, VAT, sales tax). If you do not charge tax, set the rate to `0`.
-- **Tax registration number**: printed on tax invoices.
-- **Prices already include tax**: tick this if the prices you quote customers already contain tax.
-
-### Numbering
-Choose prefixes for customer, order and invoice numbers, for example `C-`, `ORD-` and `INV-`. Numbers count up automatically with no gaps.
-
-### Customer portal
-- **Let customers view their own measurements**: off by default.
-- **Let customers approve quotations online**: on by default.
-
-Tap **Save changes** (it turns on once you edit something). A green message confirms the save.
+### Print a sheet
+Tap **Print sheet** for a one-page PDF of the latest measurements to keep at the cutting table.
 
 ---
 
-## 6. Branches
+## 5. What your role can do today
 
-A branch is one shop or workshop location. If you have one shop, the **Main Branch** is all you need.
+| | Receptionist | Master Tailor | Cutter / Stitcher / Quality Checker | Cashier | Accountant | Auditor | Branch Manager | Owner |
+|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| See customers | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Add / edit customers | Yes | - | - | - | - | - | Yes | Yes |
+| Archive, merge, export customers | - | - | - | - | - | - | Yes | Yes |
+| See measurements | Yes | Yes | Yes | Yes | - | Yes | Yes | Yes |
+| Record first measurements | Yes | Yes | Yes | - | - | - | Yes | Yes |
+| Change existing measurements | - | Yes | - | - | - | - | Yes | Yes |
+| Restore an older revision | - | - | - | - | - | - | Yes | Yes |
+| Create / edit templates | - | Yes | - | - | - | - | Yes | Yes |
 
-Go to **Settings, then Branches**.
-
-**Add a branch**
-1. Tap **Add branch**.
-2. Enter a name (for example *Market Road*), a short code (for example `MKT`), and optionally city and phone.
-3. Tap **Add branch**.
-
-**Archive a branch** (when you close a location)
-1. Tap **Archive** next to it, then confirm.
-2. The branch is hidden from new work but its history is kept.
-3. A branch with unfinished orders cannot be archived. Finish or move those orders first.
-
-> **Plan limits.** Starter allows 1 branch, Professional 3, Business 10. If you hit the limit, MeasureMate tells you and offers an upgrade. See chapter 6.
+Your manager can change your role at any time. Order, payment and invoice permissions are already part of each role and will apply when those features are released.
 
 ---
 
-## 7. Your team
+## 6. Good habits
 
-Go to **Settings, then Team**.
-
-### Roles: who can do what
-
-| Role | Good for | Can do |
-|---|---|---|
-| **Tenant Owner** | You | Everything, including plan and settings. |
-| **Branch Manager** | Shop manager | Run a branch: customers, orders, staff, reports. Cannot change plan or business settings. |
-| **Receptionist** | Front desk | Add customers, take measurements, create orders, book appointments, record payments. |
-| **Master Tailor** | Head tailor | Edit measurements, assign work, update progress. |
-| **Cutter / Stitcher / Quality Checker** | Workshop staff | See orders and update production progress. |
-| **Cashier** | Counter | Record payments and print invoices. |
-| **Accountant** | Bookkeeper | Payments, refunds, invoices and reports across all branches. |
-| **Read-Only Auditor** | Outside reviewer | View only. Cannot change anything. |
-
-Staff with branch-based roles only see the branches you choose for them. Owners, accountants and auditors see all branches.
-
-### Invite someone
-1. Tap **Invite**.
-2. Enter their **full name** and **email**, and choose a **role**.
-3. For branch-based roles, tick the **branches** they work in.
-4. Tap **Send invitation**.
-
-What happens next:
-- **New person:** they receive an invitation link, open it, choose a password and are in. If email is not set up for your account yet, MeasureMate shows you the link so you can send it yourself on WhatsApp or SMS. The link works once and expires in 7 days.
-- **Someone who already uses MeasureMate:** they are added straight away. They can belong to several businesses, with a different role in each, and switch using the business name at the top.
-
-### Change or remove access
-- **Deactivate** stops someone signing in to your business straight away. Their past work stays recorded.
-- **Reactivate** brings them back.
-- You cannot deactivate yourself, and a business must always keep at least one active owner.
+- **Search before you add.** It takes five seconds and avoids duplicate customers.
+- **Measure twice, then save.** Read the double-check message; do not just click through it.
+- **Add the reason** when you change measurements. It helps whoever picks the garment up next.
+- **Never share your login.** Everything you do is recorded under your name, which also protects you.
+- Only tick *offers and greetings* when the customer actually agreed.
 
 ---
 
-## 8. Plans and billing
+## 7. Your account
 
-Go to **Settings, then Plan**.
-
-| Plan | Branches | Team | Customers | Extras |
-|---|---|---|---|---|
-| Starter | 1 | 3 | 300 | Core features |
-| Professional | 3 | 15 | 5,000 | Inventory, reports, customer portal, branded documents |
-| Business | 10 | 50 | 50,000 | Same as Professional, higher limits |
-| Enterprise | Unlimited | Unlimited | Unlimited | Same, no limits |
-
-Prices shown are examples only, and payment is simulated at this stage. Choosing a plan switches it immediately, with no card charged. You cannot move to a smaller plan if you currently exceed its limits (for example, 3 branches on Starter). Archive or remove the extras first.
+- **Change devices:** just sign in on the new device.
+- **Lost phone:** tell your manager straight away. They can switch your access off immediately (Settings, Team, Deactivate).
+- **Forgot password:** tell your manager. A self-service reset is planned; until then an administrator helps.
 
 ---
 
-## 9. Activity history (audit log)
-
-Go to **Settings, then Audit log**.
-
-This is a permanent record of important actions: sign-ins, team invitations, setting changes, plan changes and exports. Use it to answer "who changed this, and when?"
-
-- Type in the filter box, for example `branch.` or `auth.`, to narrow the list.
-- Tap **Details** on a row for more information.
-- Entries can never be edited or deleted, and sensitive items such as passwords are never recorded.
-
----
-
-## 10. Your data and privacy
-
-Go to **Settings, then Data & privacy**.
-
-- **Export all data**: downloads a file with your records. Keep it somewhere safe. It never includes passwords.
-- **Delete this business** (owners only): type your exact business name to confirm. Access is blocked immediately and the data is permanently erased after a grace period. **Export first**, because this cannot be undone once the grace period ends.
-
-Your business is completely separate from every other business on MeasureMate. Other shops cannot see your customers, measurements or payments, and you cannot see theirs.
-
----
-
-## 11. Keeping your account safe
-
-- Use a password only you know, and never share one login between staff. Invite each person separately so the history shows who did what.
-- Sign out on shared or public computers.
-- Deactivate staff the day they leave.
-- If a phone is lost, ask the owner to **deactivate** that person's access straight away (Settings, then Team). A screen for "sign out everywhere" is planned.
-
----
-
-## 12. Troubleshooting
+## 8. If something does not work
 
 | Problem | What to do |
 |---|---|
 | "Incorrect email or password" | Check for typing mistakes. After 5 wrong tries the account locks for 15 minutes. |
-| "You do not have permission to do that" | Your role does not allow it. Ask the owner or a manager. |
-| "Your plan allows up to N â€¦" | You reached a plan limit. Upgrade in Settings, then Plan. |
-| "This business account is currently suspended" | Contact support. |
-| "Security check failed. Refresh the page" | Your session got out of date. Refresh the page and try again. |
-| Page will not load | Check your internet connection and refresh. |
-| An invitation link says it is invalid | Links work once and last 7 days. Ask your manager to invite you again. |
+| "You do not have permission to do that" | Your role does not include it. Ask a manager. |
+| I cannot see Customers or Measurements | Your role may not include it. Ask a manager. |
+| "Your plan allows up to N ..." | The business reached a plan limit. Tell the owner. |
+| "Someone else changed this customer" | Close the window, reopen the customer and try again. |
+| "Security check failed. Refresh the page" | Refresh the page and try again. |
+| "This business account is currently suspended" | Tell the owner; they contact MeasureMate support. |
+| An invitation link is invalid | Links work once and last 7 days. Ask for a new invitation. |
+| Page will not load | Check the internet connection and refresh. |
 
 ---
 
-## 13. What is coming
+## 9. Words used in MeasureMate
 
-These are planned and not yet available. This list will move into the main chapters as each part is released.
-
-- **Orders and production:** orders with several garments, a progress board from cutting to delivery, trials and alterations.
-- **Payments and invoices:** advances, part-payments, receipts, refunds and PDF invoices.
-- **Appointments and reminders** by email, SMS and WhatsApp (with customer consent).
-- **Stock:** fabric and accessories with low-stock alerts.
-- **Reports** such as outstanding balances and deliveries due.
-- **Customer portal:** customers track their own orders.
+- **Profile:** one person's measurements for one garment type.
+- **Revision:** one saved version of a profile. Old revisions are always kept.
+- **Draft:** a revision saved for later; it does not count as the current measurements.
+- **Template:** the list of measurements for a garment type.
+- **Tag:** a short label on a customer, such as VIP or Wedding.
+- **Archive:** hide a customer who no longer visits. Nothing is deleted.
 
 ---
 
-*MeasureMate is under active development. If something in this manual does not match what you see on screen, the software is the more recent source.*
+## 10. What is coming
+
+Not yet available: orders and the production board (cutting to delivery), trials and alterations, payments, receipts and invoices, appointments and reminders by email/SMS/WhatsApp, fabric and accessory stock, reports, and a portal where customers track their own orders. This manual will be extended as each arrives.
+
+---
+
+*MeasureMate is under active development. If this manual and your screen disagree, trust the screen and tell your manager so the manual can be fixed.*

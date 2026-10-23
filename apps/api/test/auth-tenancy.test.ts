@@ -117,4 +117,46 @@ describe('auth, tenancy and RLS', () => {
     await c.query('ROLLBACK');
     await c.end();
   });
+
+  it('never lets a branch-scoped role end up with access to every branch', async () => {
+    const t = await registerTenant(app);
+    const branch = (await as(app, t.token).get('/branches')).body[0].id;
+    const inv = await as(app, t.token).post('/employees/invite', { email: `acc-${Date.now()}@example.test`, fullName: 'Ann Accountant', role: 'ACCOUNTANT', branchIds: [] });
+    expect(inv.status).toBe(201);
+    // Moving a tenant-wide role to a branch-scoped role without naming branches is refused.
+    const bad = await as(app, t.token).patch(`/employees/${inv.body.membershipId}`, { role: 'CUTTER' });
+    expect(bad.status).toBe(400);
+    expect(bad.body.error.code).toBe('BRANCH_REQUIRED');
+    const ok = await as(app, t.token).patch(`/employees/${inv.body.membershipId}`, { role: 'CUTTER', branchIds: [branch] });
+    expect(ok.status).toBe(200);
+    expect(ok.body.branchIds).toEqual([branch]);
+    // Back to a tenant-wide role clears the branch list.
+    const wide = await as(app, t.token).patch(`/employees/${inv.body.membershipId}`, { role: 'READ_ONLY_AUDITOR' });
+    expect(wide.body.branchIds).toEqual([]);
+    // The last owner cannot be demoted.
+    const me = (await as(app, t.token).get('/auth/me')).body.user.id;
+    const team = (await as(app, t.token).get('/employees')).body;
+    const owner = team.find((x: { userId: string }) => x.userId === me);
+    expect((await as(app, t.token).patch(`/employees/${owner.membershipId}`, { role: 'BRANCH_MANAGER', branchIds: [branch] })).status).toBe(409);
+  });
+
+  it('re-issues a working invitation link and lets the invitee join', async () => {
+    const t = await registerTenant(app);
+    const branch = (await as(app, t.token).get('/branches')).body[0].id;
+    const email = `new-${Date.now()}@example.test`;
+    const inv = await as(app, t.token).post('/employees/invite', { email, fullName: 'New Hire', role: 'RECEPTIONIST', branchIds: [branch] });
+    expect(inv.body.status).toBe('INVITED');
+    const again = await as(app, t.token).post(`/employees/${inv.body.membershipId}/resend-invite`);
+    expect(again.status).toBe(200);
+    const accept = await request(app.getHttpServer()).post('/api/v1/auth/accept-invite').send({ token: again.body.inviteToken, password: 'A-very-long-password-1' });
+    expect(accept.status).toBe(201);
+    const me = await as(app, accept.body.token).get('/auth/me');
+    expect(me.body.role).toBe('RECEPTIONIST');
+    // Once accepted there is nothing left to resend, and the link cannot be reused.
+    expect((await as(app, t.token).post(`/employees/${inv.body.membershipId}/resend-invite`)).status).toBe(404);
+    expect((await request(app.getHttpServer()).post('/api/v1/auth/accept-invite').send({ token: again.body.inviteToken, password: 'A-very-long-password-2' })).status).toBe(400);
+    // ...and the failed attempt must not have changed the password.
+    expect((await request(app.getHttpServer()).post('/api/v1/auth/login').send({ email, password: 'A-very-long-password-2' })).status).toBe(401);
+    expect((await request(app.getHttpServer()).post('/api/v1/auth/login').send({ email, password: 'A-very-long-password-1' })).status).toBe(200);
+  });
 });

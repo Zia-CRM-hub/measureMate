@@ -24,6 +24,9 @@ function TeamInner() {
   const [open, setOpen] = React.useState(params.get('new') === '1');
   const [branchIds, setBranchIds] = React.useState<string[]>([]);
   const [invite, setInvite] = React.useState<{ url: string; status: string } | null>(null);
+  const [editing, setEditing] = React.useState<Member | null>(null);
+  const [editRole, setEditRole] = React.useState('');
+  const [editBranches, setEditBranches] = React.useState<string[]>([]);
   const team = useQuery({ queryKey: ['employees'], queryFn: () => api<Member[]>('/employees') });
   const roles = useQuery({ queryKey: ['roles'], queryFn: () => api<RoleInfo[]>('/roles') });
   const branches = useQuery({ queryKey: ['branches'], queryFn: () => api<Branch[]>('/branches') });
@@ -41,7 +44,14 @@ function TeamInner() {
   });
   const update = useMutation({
     mutationFn: (a: { id: string; body: object }) => patch(`/employees/${a.id}`, a.body),
-    onSuccess: () => { toast('Team member updated'); void qc.invalidateQueries({ queryKey: ['employees'] }); },
+    onSuccess: () => { toast('Team member updated'); setEditing(null); void qc.invalidateQueries({ queryKey: ['employees'] }); },
+    onError: (e) => toast(errorText(e), 'danger'),
+  });
+  const editRoleInfo = roles.data?.find((r) => r.key === editRole);
+  const openEdit = (m: Member) => { setEditing(m); setEditRole(m.role); setEditBranches(m.branchIds); };
+  const resend = useMutation({
+    mutationFn: (id: string) => post<{ inviteToken?: string }>(`/employees/${id}/resend-invite`),
+    onSuccess: (r) => { if (r.inviteToken) setInvite({ url: `${location.origin}/accept-invite?token=${r.inviteToken}`, status: 'INVITED' }); else toast('New invitation sent'); },
     onError: (e) => toast(errorText(e), 'danger'),
   });
   const branchName = (id: string) => branches.data?.find((b) => b.id === id)?.name ?? 'Branch';
@@ -73,6 +83,8 @@ function TeamInner() {
               </div>
               <Badge>{titleCase(m.role)}</Badge>
               <Badge tone={m.status === 'ACTIVE' ? 'success' : m.status === 'INVITED' ? 'warning' : 'danger'}>{titleCase(m.status)}</Badge>
+              {m.status === 'INVITED' && <Button size="sm" variant="secondary" loading={resend.isPending && resend.variables === m.membershipId} onClick={() => resend.mutate(m.membershipId)}>New invitation link</Button>}
+              {m.userId !== me?.user.id && m.role !== 'TENANT_OWNER' && m.status !== 'DEACTIVATED' && <Button size="sm" variant="secondary" onClick={() => openEdit(m)}>Edit access</Button>}
               {m.userId !== me?.user.id && (
                 m.status === 'DEACTIVATED'
                   ? <Button size="sm" variant="secondary" onClick={() => update.mutate({ id: m.membershipId, body: { status: 'ACTIVE' } })}>Reactivate</Button>
@@ -102,6 +114,26 @@ function TeamInner() {
             </fieldset>
           )}
         </form>
+      </Dialog>
+      <Dialog open={!!editing} onClose={() => setEditing(null)} title={`Edit access: ${editing?.fullName ?? ''}`}
+        footer={<><Button variant="secondary" onClick={() => setEditing(null)}>Cancel</Button>
+          <Button loading={update.isPending} disabled={!editRoleInfo?.tenantWide && editBranches.length === 0}
+            onClick={() => editing && update.mutate({ id: editing.membershipId, body: { role: editRole, ...(editRoleInfo?.tenantWide ? {} : { branchIds: editBranches }) } })}>Save</Button></>}>
+        <div className="space-y-4">
+          <Field label="Role" htmlFor="ed-role">
+            <Select id="ed-role" value={editRole} onChange={(e) => setEditRole(e.target.value)}>{roles.data?.filter((r) => r.key !== 'TENANT_OWNER').map((r) => <option key={r.key} value={r.key}>{r.name}</option>)}</Select>
+          </Field>
+          {editRoleInfo && !editRoleInfo.tenantWide && (
+            <fieldset className="space-y-1"><legend className="text-sm font-medium">Branches they can work in</legend>
+              {branches.data?.map((b) => (
+                <label key={b.id} className="flex min-h-11 items-center gap-3 text-sm">
+                  <input type="checkbox" className="h-5 w-5" checked={editBranches.includes(b.id)} onChange={(e) => setEditBranches((s) => e.target.checked ? [...s, b.id] : s.filter((x) => x !== b.id))} />{b.name}
+                </label>
+              ))}
+            </fieldset>
+          )}
+          {editRoleInfo?.tenantWide && <p className="text-sm text-muted-foreground">This role works across all branches.</p>}
+        </div>
       </Dialog>
     </>
   );

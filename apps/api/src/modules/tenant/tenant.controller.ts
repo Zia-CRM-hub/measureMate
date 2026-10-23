@@ -195,6 +195,20 @@ export class TenantController {
     return { membershipId: result.id, status: result.status, inviteToken: loadConfig().isProd ? undefined : inviteToken };
   }
 
+  /** Issues a fresh one-time link for an invitation that has not been accepted yet. */
+  @Post('employees/:membershipId/resend-invite') @Perm('employee.manage') @HttpCode(200)
+  async resendInvite(@Param('membershipId', ParseUUIDPipe) id: string) {
+    const tenantId = currentTenantId();
+    const m = await this.db.run(async (tx) => {
+      const found = await tx.tenantMembership.findFirst({ where: { id, tenantId, status: 'INVITED' } });
+      if (!found) throw notFound('Pending invitation');
+      await this.audit.recordTx(tx, { action: 'employee.invite_resent', entityType: 'membership', entityId: id });
+      return found;
+    });
+    const inviteToken = await this.sessions.signInvite(m.userId, tenantId);
+    return { membershipId: id, status: 'INVITED', inviteToken: loadConfig().isProd ? undefined : inviteToken };
+  }
+
   @Patch('employees/:membershipId') @Perm('employee.manage') @Validates(memberUpdateSchema)
   async updateMember(@Param('membershipId', ParseUUIDPipe) id: string, @Body() body: z.infer<typeof memberUpdateSchema>) {
     const tenantId = currentTenantId();
@@ -207,7 +221,13 @@ export class TenantController {
         const owners = await tx.tenantMembership.count({ where: { tenantId, roleKey: 'TENANT_OWNER', status: 'ACTIVE' } });
         if (owners <= 1) throw conflict('LAST_OWNER', 'A business must keep at least one active owner');
       }
-      const updated = await tx.tenantMembership.update({ where: { id }, data: { roleKey: body.role, branchIds: body.branchIds, status: body.status } });
+      // A branch-scoped role must always name its branches: an empty list would mean "all branches".
+      const newRole = (body.role ?? m.roleKey) as RoleKey;
+      let newBranches = body.branchIds ?? m.branchIds;
+      if (TENANT_WIDE_ROLES.includes(newRole)) newBranches = [];
+      else if (newBranches.length === 0) throw badRequest('BRANCH_REQUIRED', 'Choose at least one branch for this role');
+      if (newBranches.length && (await tx.branch.count({ where: { tenantId, id: { in: newBranches } } })) !== newBranches.length) throw badRequest('INVALID_BRANCH', 'One or more branches do not exist');
+      const updated = await tx.tenantMembership.update({ where: { id }, data: { roleKey: newRole, branchIds: newBranches, status: body.status } });
       if (body.status === 'DEACTIVATED') await tx.employee.updateMany({ where: { tenantId, userId: m.userId }, data: { active: false } });
       await this.audit.recordTx(tx, { action: 'employee.updated', entityType: 'membership', entityId: id, metadata: body });
       return updated;

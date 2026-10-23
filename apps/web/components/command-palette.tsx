@@ -3,7 +3,7 @@ import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { can, type Me } from '@/lib/me';
-import { NAV, QUICK_ACTIONS, SETTINGS_TABS } from '@/lib/nav';
+import { QUICK_ACTIONS, resolveNav, SETTINGS_TABS } from '@/lib/nav';
 
 export function CommandPalette({ me, open, setOpen }: { me: Me; open: boolean; setOpen: (v: boolean) => void }) {
   const router = useRouter();
@@ -14,7 +14,7 @@ export function CommandPalette({ me, open, setOpen }: { me: Me; open: boolean; s
   const items = React.useMemo(() => {
     const all = [
       ...QUICK_ACTIONS.filter((a) => !a.perm || can(me, a.perm)).map((a) => ({ ...a, group: 'Create' })),
-      ...NAV.filter((n) => !n.perm || can(me, n.perm)).map((n) => ({ href: n.href, label: `Go to ${n.label}`, group: 'Navigate' })),
+      ...resolveNav(me).map((n) => ({ href: n.href, label: `Go to ${n.label}`, group: 'Navigate' })),
       ...SETTINGS_TABS.filter((n) => can(me, n.perm)).map((n) => ({ href: n.href, label: `Settings · ${n.label}`, group: 'Settings' })),
     ];
     const t = q.trim().toLowerCase();

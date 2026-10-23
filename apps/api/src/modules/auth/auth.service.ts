@@ -141,16 +141,15 @@ export class AuthService {
     const claims = await this.sessions.verifyInvite(token);
     if (!claims) throw badRequest('INVALID_INVITE', 'This invitation link is invalid or has expired');
     const user = await this.db.user.findUnique({ where: { id: claims.userId } });
-    if (!user) throw badRequest('INVALID_INVITE', 'This invitation link is invalid or has expired');
-    await this.db.user.update({
-      where: { id: user.id },
-      data: { passwordHash: await hash(password), fullName: fullName?.trim() || user.fullName },
-    });
+    if (!user || user.status !== 'ACTIVE') throw badRequest('INVALID_INVITE', 'This invitation link is invalid or has expired');
+    const passwordHash = await hash(password);
+    // The invitation must still be pending *before* any credential changes: a used or stale link must never reset a password.
     await this.db.run(async (tx) => {
-      const m = await tx.tenantMembership.updateMany({
+      const claimed = await tx.tenantMembership.updateMany({
         where: { tenantId: claims.tenantId, userId: user.id, status: 'INVITED' }, data: { status: 'ACTIVE' },
       });
-      if (m.count === 0) throw badRequest('INVALID_INVITE', 'This invitation was already used');
+      if (claimed.count === 0) throw badRequest('INVALID_INVITE', 'This invitation was already used or is no longer valid');
+      await tx.$executeRaw`UPDATE users SET "passwordHash" = ${passwordHash}, "fullName" = ${fullName?.trim() || user.fullName}, "updatedAt" = now() WHERE id = ${user.id}::uuid`;
       await this.audit.recordTx(tx, { tenantId: claims.tenantId, actorId: user.id, action: 'auth.invite_accepted', entityType: 'user', entityId: user.id });
     }, { tenantId: claims.tenantId, userId: user.id });
     const { token: sessionToken, session } = await this.sessions.create(user.id, { tenantId: claims.tenantId });

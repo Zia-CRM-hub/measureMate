@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
 import { post, errorText } from '@/lib/api';
 import { can, type Me } from '@/lib/me';
-import { NAV, QUICK_ACTIONS } from '@/lib/nav';
+import { QUICK_ACTIONS, resolveNav } from '@/lib/nav';
 import { cn, titleCase } from '@/lib/utils';
 import { CommandPalette } from './command-palette';
 import { useToast } from './toast';
@@ -54,7 +54,7 @@ export function AppShell({ me, children }: { me: Me; children: React.ReactNode }
     return () => document.removeEventListener('keydown', h);
   }, []);
 
-  const nav = NAV.filter((n) => !n.perm || can(me, n.perm));
+  const nav = resolveNav(me);
   const quick = QUICK_ACTIONS.filter((a) => !a.perm || can(me, a.perm));
   const isActive = (href: string) => pathname === href || (href !== '/dashboard' && pathname.startsWith('/' + href.split('/')[1]));
 
