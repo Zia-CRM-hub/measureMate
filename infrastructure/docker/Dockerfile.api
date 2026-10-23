@@ -1,0 +1,25 @@
+# MeasureMate API (NestJS + Prisma). Build from the repository root:
+#   docker build -f infrastructure/docker/Dockerfile.api -t measuremate-api .
+FROM node:22-bookworm-slim AS build
+ENV PNPM_HOME=/pnpm PATH=/pnpm:$PATH CI=true
+RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/* \
+ && corepack enable && corepack prepare pnpm@9.15.4 --activate
+WORKDIR /app
+# The whole workspace is copied (see .dockerignore) so the frozen lockfile matches every workspace package.
+COPY . .
+RUN pnpm install --frozen-lockfile --filter @measuremate/api...
+RUN pnpm --filter @measuremate/validation build \
+ && pnpm --filter @measuremate/api build
+
+FROM node:22-bookworm-slim AS runtime
+ENV NODE_ENV=production PORT=4000
+RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates wget && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+# The workspace is copied whole so pnpm's symlinked node_modules keep working (larger image, simpler and safer).
+COPY --from=build --chown=node:node /app /app
+USER node
+WORKDIR /app/apps/api
+EXPOSE 4000
+HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=5 \
+  CMD wget -qO- http://127.0.0.1:4000/api/v1/ready || exit 1
+CMD ["node", "dist/src/main.js"]

@@ -1,0 +1,29 @@
+# Install to /etc/systemd/system/measuremate-api.service, then:
+#   sudo systemctl daemon-reload && sudo systemctl enable --now measuremate-api
+# Configuration lives in /etc/measuremate/api.env (chmod 600, owned by root): DATABASE_URL, SESSION_SECRET, WEB_ORIGIN, ...
+[Unit]
+Description=MeasureMate API
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=measuremate
+Group=measuremate
+WorkingDirectory=/opt/measuremate/apps/api
+EnvironmentFile=/etc/measuremate/api.env
+Environment=NODE_ENV=production
+Environment=PORT=4000
+ExecStart=/usr/bin/node dist/src/main.js
+Restart=on-failure
+RestartSec=3
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+CapabilityBoundingSet=
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

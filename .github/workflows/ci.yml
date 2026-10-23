@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Install, type-check, test, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build shared package
+        run: pnpm --filter @measuremate/validation build
+
+      - name: Unit tests (shared package)
+        run: pnpm --filter @measuremate/validation test
+
+      - name: Generate Prisma client
+        run: pnpm --filter @measuremate/api exec prisma generate
+
+      - name: Type-check API
+        run: pnpm --filter @measuremate/api exec tsc -p tsconfig.json --noEmit
+
+      - name: Type-check web
+        run: pnpm --filter @measuremate/web exec tsc --noEmit
+
+      # Integration tests start a real, throwaway PostgreSQL (embedded binaries), apply the real
+      # migrations as a non-superuser application role, and exercise tenant isolation end to end.
+      - name: API integration tests
+        run: pnpm --filter @measuremate/api test
+
+      - name: Build API
+        run: pnpm --filter @measuremate/api exec tsc -p tsconfig.build.json
+
+      - name: Build web
+        run: pnpm --filter @measuremate/web build
+        env:
+          API_URL: http://localhost:4000
+
+  docker:
+    name: Docker images build
+    runs-on: ubuntu-latest
+    needs: verify
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build API image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: infrastructure/docker/Dockerfile.api
+          push: false
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,scope=api,mode=max
+      - name: Build web image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: infrastructure/docker/Dockerfile.web
+          build-args: API_URL=http://api:4000
+          push: false
+          cache-from: type=gha,scope=web
+          cache-to: type=gha,scope=web,mode=max

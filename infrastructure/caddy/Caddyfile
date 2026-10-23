@@ -1,0 +1,15 @@
+# Used by the Docker Compose stack. {$DOMAIN} is your host name (use "localhost" to try it locally).
+{$DOMAIN} {
+	encode gzip zstd
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	# The web app forwards /api/* to the API, so the browser only ever talks to one origin.
+	reverse_proxy web:3100
+}

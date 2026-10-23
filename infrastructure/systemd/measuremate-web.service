@@ -1,0 +1,28 @@
+# Install to /etc/systemd/system/measuremate-web.service, then:
+#   sudo systemctl daemon-reload && sudo systemctl enable --now measuremate-web
+# The web app must have been BUILT with API_URL pointing at the API (default http://localhost:4000).
+[Unit]
+Description=MeasureMate web
+After=network.target measuremate-api.service
+Wants=measuremate-api.service
+
+[Service]
+Type=simple
+User=measuremate
+Group=measuremate
+WorkingDirectory=/opt/measuremate/apps/web
+Environment=NODE_ENV=production
+Environment=PORT=3100
+ExecStart=/usr/bin/node node_modules/next/dist/bin/next start -p 3100
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=-/opt/measuremate/apps/web/.next/cache
+CapabilityBoundingSet=
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,16 @@
+**/node_modules
+**/dist
+**/.next
+**/.turbo
+**/coverage
+.git
+.github
+.env
+**/.env
+**/.env.*
+!**/.env.example
+.pgdata
+**/.pgdata
+backups
+docs
+*.md

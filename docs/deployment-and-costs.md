@@ -1,7 +1,7 @@
 # MeasureMate: Deployment Strategy, Running Costs and Open-Source Inventory
 
 **Audience:** the owner/founder deciding how to host MeasureMate and what it will cost; the technical appendix is for whoever sets it up.
-**Status of this document:** a plan based on the code as it stands today (customers, measurements, auth, multi-tenancy, platform admin). It is a recommendation, not a record of a production deployment. **No load test and no Linux/Docker deployment has been run yet**; see section 9 for what is missing.
+**Status of this document:** a plan based on the code as it stands today (customers, measurements, auth, multi-tenancy, platform admin). It is a recommendation, not a record of a production deployment. **No load test and no Linux/Docker deployment has been run yet**; see section 9 for what exists and what is missing.
 
 > **About the numbers.** Cloud prices change often (Hetzner repriced its cloud lines in 2026). Every cost below is a **planning range to be confirmed on the provider's pricing page** before you commit. Sources consulted are listed at the end. Anything marked *assumption* is mine.
 
@@ -240,17 +240,28 @@ Also: the short-lived plan/entitlement cache (15 seconds) is per process and is 
 
 ---
 
-## 9. What is missing from the repository for deployment
+## 9. Deployment files: what exists now and what is still missing
 
-Being straightforward: these exist only as a plan today and should be built next.
+**Now in the repository** (written and syntax-checked, **not yet run**, because the author's machine has no Docker):
 
-- Dockerfiles and a Docker Compose setup (this machine has no Docker, so they could not be tested here)
-- A CI pipeline (GitHub Actions) running lint, type-check, tests and build
-- Backup and restore scripts, and a restore-drill checklist
-- `systemd` units / Caddy configuration files
-- A production environment template (`.env.example`) and an environment-validation step in the deploy script
+| File | Purpose |
+|---|---|
+| `infrastructure/docker/Dockerfile.api`, `Dockerfile.web`, `.dockerignore` | Build the API and web images |
+| `infrastructure/docker/docker-compose.yml` | PostgreSQL + one-shot migration + API + web + Caddy (+ Mailpit with `--profile dev`); database not exposed; the API never receives the database owner password |
+| `infrastructure/docker/postgres-init/01-roles.sh` | Creates the restricted `mm_app` role the app must use |
+| `infrastructure/caddy/Caddyfile`, `Caddyfile.vps` | HTTPS reverse proxy for Docker and for a plain server |
+| `infrastructure/systemd/*.service` | Run API and web as hardened services without Docker |
+| `.env.example`, `scripts/gen-secrets.sh` | Configuration template and strong-secret generator |
+| `scripts/deploy.sh` | Validates the environment, builds, migrates, starts, health-checks |
+| `scripts/backup.sh`, `scripts/restore.sh`, `docs/backup-and-restore.md` | Encrypted backups with retention, restore drill, disaster procedure |
+| `.github/workflows/ci.yml` | Type-check, tests (real PostgreSQL), build, and Docker image builds on every push |
+| `README.md` | Exact local and Docker start-up steps |
+
+**Still missing:**
+- Proof that the Docker images build and the stack runs (first run on a staging server is the test)
 - Monitoring dashboards and alert rules
 - A load test to replace the guesses in section 5.4
+- Redis/Valkey, shared file storage and a single background worker (section 6), needed only before running more than one API copy
 
 ---
 

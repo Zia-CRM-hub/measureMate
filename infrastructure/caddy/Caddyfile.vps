@@ -1,0 +1,15 @@
+# For a plain Linux server without Docker (see docs/deployment-and-costs.md section 7).
+# Replace app.example.com with your host name. Caddy obtains and renews HTTPS certificates automatically.
+app.example.com {
+	encode gzip zstd
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	reverse_proxy 127.0.0.1:3100
+}

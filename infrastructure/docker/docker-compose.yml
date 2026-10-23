@@ -1,0 +1,102 @@
+# MeasureMate on one machine: PostgreSQL + API + web + HTTPS proxy.
+#
+#   cp .env.example .env            # then fill in the values (scripts/gen-secrets.sh helps)
+#   docker compose -f infrastructure/docker/docker-compose.yml --env-file .env up -d --build
+#
+# Add `--profile dev` to also start Mailpit, a local inbox that catches outgoing email (http://localhost:8025).
+name: measuremate
+
+services:
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_OWNER_USER:-measuremate_owner}
+      POSTGRES_PASSWORD: ${DB_OWNER_PASSWORD:?set DB_OWNER_PASSWORD in .env}
+      POSTGRES_DB: ${DB_NAME:-measuremate}
+      MM_APP_PASSWORD: ${DB_APP_PASSWORD:?set DB_APP_PASSWORD in .env}
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./postgres-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [backend]
+    # No ports are published: the database is reachable only from the other containers.
+
+  migrate:
+    build: { context: ../.., dockerfile: infrastructure/docker/Dockerfile.api }
+    image: measuremate-api:local
+    restart: "no"
+    command: ["node", "node_modules/prisma/build/index.js", "migrate", "deploy"]
+    # Only this one-shot step receives the owner credentials; the long-running API never sees them.
+    environment:
+      DATABASE_URL: postgresql://mm_app:${DB_APP_PASSWORD}@db:5432/${DB_NAME:-measuremate}
+      DIRECT_URL: postgresql://${DB_OWNER_USER:-measuremate_owner}:${DB_OWNER_PASSWORD}@db:5432/${DB_NAME:-measuremate}
+    depends_on:
+      db: { condition: service_healthy }
+    networks: [backend]
+
+  api:
+    image: measuremate-api:local
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://mm_app:${DB_APP_PASSWORD}@db:5432/${DB_NAME:-measuremate}
+      NODE_ENV: production
+      PORT: "4000"
+      SESSION_SECRET: ${SESSION_SECRET:?set SESSION_SECRET in .env}
+      SESSION_TTL_HOURS: ${SESSION_TTL_HOURS:-12}
+      WEB_ORIGIN: https://${DOMAIN:-localhost}
+      PLATFORM_ADMIN_EMAIL: ${PLATFORM_ADMIN_EMAIL:-}
+      PLATFORM_ADMIN_PASSWORD: ${PLATFORM_ADMIN_PASSWORD:-}
+      TENANT_DELETION_GRACE_DAYS: ${TENANT_DELETION_GRACE_DAYS:-14}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      MAIL_FROM: ${MAIL_FROM:-MeasureMate <no-reply@localhost>}
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+    networks: [backend]
+
+  web:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.web
+      args: { API_URL: "http://api:4000" }
+    restart: unless-stopped
+    depends_on:
+      api: { condition: service_healthy }
+    networks: [backend]
+
+  proxy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      web: { condition: service_healthy }
+    networks: [backend]
+
+  mailpit:
+    image: axllent/mailpit:latest
+    profiles: ["dev"]
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8025:8025"
+    networks: [backend]
+
+networks:
+  backend:
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:
